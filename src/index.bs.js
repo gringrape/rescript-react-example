@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import * as ReactDom from "react-dom";
+import * as App$ProjectName from "./App.bs.js";
 
 var root = document.querySelector("#root");
 
 if (!(root == null)) {
-  ReactDom.render(React.createElement("h1", undefined, "Hello, World"), root);
+  ReactDom.render(React.createElement(App$ProjectName.make, {}), root);
 }
 
 export {
