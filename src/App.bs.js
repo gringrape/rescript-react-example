@@ -2,29 +2,64 @@
 
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
+import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 
 function App(Props) {
   var match = React.useState(function () {
         return 0;
       });
-  var setCount = match[1];
-  var onClickIncrease = function (evt) {
-    return Curry._1(setCount, (function (_prev) {
+  var setGenId = match[1];
+  var genId = match[0];
+  var match$1 = React.useState(function () {
+        return "";
+      });
+  var setTodo = match$1[1];
+  var todo = match$1[0];
+  var match$2 = React.useState(function () {
+        return [
+                {
+                  id: "todo1",
+                  text: "eat something",
+                  complete: false
+                },
+                {
+                  id: "todo2",
+                  text: "study something",
+                  complete: false
+                }
+              ];
+      });
+  var setTodos = match$2[1];
+  var todos = match$2[0];
+  var items = Belt_Array.map(todos, (function (todoItem) {
+          return React.createElement("li", {
+                      key: todoItem.id
+                    }, todoItem.text);
+        }));
+  var onChange = function (evt) {
+    var value = evt.target.value;
+    return Curry._1(setTodo, (function (_prev) {
+                  return value;
+                }));
+  };
+  var onClick = function (evt) {
+    Curry._1(setTodos, (function (_prev) {
+            return todos.concat([{
+                          id: String(genId),
+                          text: todo,
+                          complete: false
+                        }]);
+          }));
+    return Curry._1(setGenId, (function (_prev) {
                   return _prev + 1 | 0;
                 }));
   };
-  var onClickDecrease = function (evt) {
-    return Curry._1(setCount, (function (_prev) {
-                  return _prev - 1 | 0;
-                }));
-  };
-  return React.createElement(React.Fragment, undefined, React.createElement("h1", undefined, "Simple Counter"), React.createElement("p", undefined, React.createElement("span", undefined, String(match[0])), React.createElement("button", {
-                      type: "button",
-                      onClick: onClickIncrease
-                    }, "increase"), React.createElement("button", {
-                      type: "button",
-                      onClick: onClickDecrease
-                    }, "decrease")));
+  return React.createElement(React.Fragment, undefined, React.createElement("h1", undefined, "TODO List"), React.createElement("p", undefined, React.createElement("input", {
+                      value: todo,
+                      onChange: onChange
+                    }), React.createElement("button", {
+                      onClick: onClick
+                    }, "submit")), items);
 }
 
 var make = App;
